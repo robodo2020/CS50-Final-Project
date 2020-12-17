@@ -1,0 +1,381 @@
+{% extends "index.html" %}
+
+{% block head %}
+
+<!-- import jquery -->
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<!-- import time picker version: jonthornton-->
+<link href='/static/assets/css/jquery.timepicker.css' rel='stylesheet' />
+
+<!-- import date picker version: fengyuanchen -->
+<link rel="stylesheet" href="/static/assets/css/datepicker.min.css">
+
+
+
+
+<!-- import fullcalendar -->
+<meta charset='utf-8' />
+<link href='https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.css' rel='stylesheet' />
+<script src='https://cdn.jsdelivr.net/npm/fullcalendar@5.4.0/main.min.js'></script>
+
+
+{% block title %}
+    Schedule
+{% endblock %}
+{% endblock %}
+
+
+
+
+{% block body %}
+<article id="breadcrumbs" class="breadcrumbs">
+  <div class="container">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li>Schedule</li>
+    </ol>
+    <h2>Schedule</h2>
+  </div>
+
+
+  <section class="inner-page">
+    <div class="container">
+      <p>
+        Add a new event by the button below, the event and commute time will show on the calendar.
+      </p>
+      <div class = "left">
+        {% if TimeZone %}
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-warning" data-toggle="modal" data-target="#AddANewEvent">New Event</button>
+        </div>
+          {% if work == None or home == None or CustomList == [] %}
+          <div>
+            <small>
+                You can also setup 
+                {% if home == None %}
+                "home" 
+                {% endif %}
+                {% if work == None %}
+                'work" 
+                {% endif %}
+                {% if CustomList == [] %}
+                "other" 
+                {% endif %}
+                address in SETTING page.
+            </small>
+          </div>
+          {% endif %}
+        {% else %}
+        <div class="btn-group">
+          <button type="button" class="btn btn-outline-warning" disabled>New Event</button>
+        </div>
+        <div><small>Please setup your time zone before adding new event. </small></div>
+        {% endif %}
+
+      </div>
+        
+      <!-- <div id='wrap' class = "center"> -->
+        <div id='calendar'  class = "center"></div>
+        <div style='clear:both'></div>
+    </div>
+  </section>
+
+
+</article><!-- End Breadcrumbs -->
+
+
+
+
+  
+    
+
+
+<!-- event information modal -->
+<div class="modal fade" id="AddANewEvent" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Schedule your event</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/schedule" method="post">
+                    <div class="form-group row-auto">
+                      <label>Event Title</label>
+                      <input type="text" class="form-control" name ="EventTitle"  placeholder="Enter Title" autocomplete="off" required/>
+                    </div>
+                     
+                    <label class=" row"><div class="col-sm-6">Date</div> <div class="col-sm-6">Time</div> </label>
+                    <div class="form-inline row" id="myModalWithDatePicker">
+                        <div class ="form-group">
+                          <span>&nbsp;&nbsp;&nbsp;</span>
+                          <input type="text" class="form-control col-sm-4" data-toggle="datepicker" name ="EventDate" autocomplete="off" required />
+                          <span>&nbsp;&nbsp;</span>
+                          <input type="text" data-time-format="H:i" id="FromTime" onchange="getFromTime();" class="time ui-timepicker-input form-control col-sm-2" name ="EventStartTime" autocomplete="off" required/>
+                          <span>&nbsp;–&nbsp;</span>
+                          <input type="text" data-time-format="H:i" id="ToTime" class="time ui-timepicker-input form-control col-sm-2" name ="EventEndTime" autocomplete="off"  required/>
+                        </div>                      
+                    </div>
+                    
+
+                    <!-- destination -->
+                    <div class="form-group row-auto">
+                      <label>Destination</label>
+                      <input type="text" class="form-control" id="auto_search" name = "Destination" placeholder="Destination" required/>
+                      <small  class="form-text text-muted"></small>
+                    </div>  
+                    
+                    <!-- Departure -->
+                   <div class = "form-group row-auto">
+                    <label>Departure</label>
+                      <div class = "form-group row-auto">
+                        <select class = "form-control labelform" id = "mySelect" name="DepartureLabel">
+                          {% if home != None %}
+                          <option>Home</option>
+                          {% endif %}
+                          {% if work != None %}
+                          <option>Work</option>
+                          {% endif %}
+                          {% for i in CustomList %}
+                            <option>{{i["label"]}}</option>
+                          {% endfor %}
+                          <option>Other</option>
+                        </select>
+                      </div>
+                      <div class = "form-group row-auto" id ="userinput" style='display:none'>
+                        <input type="text" class="form-control " id="departure_auto_search" name="DepartureUserInput" placeholder="Departure"/>
+                      </div>
+                    </div>
+                    
+
+                    <div class = "form-group row-auto">
+                      <label>Commute Mode</label>
+                        <div class = "form-group row-auto">
+                          <select class = "form-control labelform" id="modeselect" name="CalculateCommuteMode">
+                            {% if UserCommuteMode != None %}
+                            <option>{{UserCommuteMode}}</option>
+                            {% endif %}
+                              {% for i in AllCommuteMode %}
+                                {% if i.capitalize() != UserCommuteMode %}
+                                <option>{{ i.capitalize() }}</option>
+                                {% endif %}
+                              {% endfor %}
+                            <!-- Mix Mode: Function hasn't complete  -->
+                            <!-- <option>Mix</option> -->
+                          </select>
+                        </div>
+
+                        <!-- Mix Mode: Function hasn't complete -->
+                        <!-- Mix Mode uses -->
+                        <!-- <div class = "form-group labelform row-auto" id ="waypoint1" style='display:none'>
+                          <input type="text" class="form-control " name="FirstWaypoint" placeholder="First Waypoint"/>
+                          <select class = "form-control labelform" name="FirstWaypointMode">
+                            <option>{{UserCommuteMode}}</option>
+                              {% for i in AllCommuteMode %}
+                                {% if i.capitalize() != UserCommuteMode %}
+                                <option>{{ i.capitalize() }}</option>
+                                {% endif %}
+                              {% endfor %}
+                          </select>
+                          <button type="button" class="btn btn-outline-info" id = "addwaypoint">Add</button>
+                        </div>
+                        <div class = "form-group labelform" id ="waypoint2" style='display:none'>
+                          <input type="text" class="form-control " name="SecondWaypoint" placeholder="Second Waypoint"/>
+                          <select class = "form-control labelform" name="SecondWaypointMode">
+                            <option>{{UserCommuteMode}}</option>
+                              {% for i in AllCommuteMode %}
+                                {% if i.capitalize() != UserCommuteMode %}
+                                <option>{{ i.capitalize() }}</option>
+                                {% endif %}
+                              {% endfor %}
+                          </select>
+                        </div> -->
+                         <!-- Mix Mode uses -->
+
+
+                      </div>
+
+                    <div class="form-group row-auto"> 
+                      <label>Description</label>
+                      <input type="text" class="form-control" name ="Description"  placeholder="Description" autocomplete="off" />
+                      <small  class="form-text text-muted"></small>
+                    </div> 
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary" id="submit">Save</button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% block script%}
+
+<!-- date picker -->
+<script src="/static/assets/js/datepicker.min.js"></script>
+<!-- time picker -->
+<script src='/static/assets/js/jquery.timepicker.js' type="text/javascript"></script>
+
+<script>
+  let  calendarEl = document.getElementById('calendar');
+        let calendar = new FullCalendar.Calendar(calendarEl, {
+            initialView: 'dayGridMonth',
+            initialDate: new Date(),
+            headerToolbar: {
+            left: 'prev,next today',
+            center: 'title',
+            right: 'dayGridMonth,timeGridWeek,timeGridDay'
+            },
+            events: [
+                {% for i in UserEvents %}
+                {
+                    title: '{{i.eventtitle}}',
+                    start: '{{i.starttime}}',
+                    end:    '{{i.endtime}}',
+                },
+                {% endfor %}
+
+            ]
+        });
+        calendar.render();
+</script>
+<!-- full calendar -->
+
+
+<!-- Below are for Departure custom input, disable this function first -->
+<script>
+  function ActivatePlacesSearch(){
+      var input = document.getElementById('departure_auto_search');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+
+      var search = document.getElementById('auto_search');
+      var autocomplete1 = new google.maps.places.Autocomplete(search);
+  
+  }
+</script>
+
+
+<!-- Also for Departure custom input, for option choosing -->
+<script>
+  var mySelect = document.getElementById('mySelect');
+  var resultB = document.getElementById('userinput');
+
+mySelect.addEventListener('change', (e) => {
+  switch (e.target.value) {
+    default: {
+      resultB.style.display = 'none';
+      break;
+    }
+    case 'Other': {
+      resultB.style.display = 'block';
+      break;
+    }
+      
+  }
+});
+
+{% if home == None and work == None %}
+    resultB.style.display = 'block';
+{% endif %}
+</script>
+
+
+<!-- timepicker -->
+
+<script>
+   
+  $(function() {
+      $('#FromTime').timepicker(
+        {
+         'timeFormat': 'H:i',
+         'scrollDefault': 'now',
+        });
+  });
+  
+  //  var globalVar;
+  // function getFromTime(){
+  //    globalVar = document.getElementById('FromTime').value;  
+  //   };
+
+
+//   $(function(){
+//   $("#FromTime").change(function(){
+//     globalVar = document.getElementById('FromTime').value;  
+//     alert(globalVar);
+//   });
+// });
+
+
+// ToTime 一選完，透過onchange知道 globalVar有拿到值，然而在下方jQuery還沒初始化過，所以這時候還不知道global的值
+// 但如果我事前預設globalVar="15:00"，下面就可以讀的到
+
+//下面似乎在重新整理網頁時，就已經讀取了，所以後面就完全讀不到
+  $(function() {
+      // var local = globalVar;
+      // alert(local);
+      $('#ToTime').timepicker({
+        'timeFormat': 'H:i',
+        'scrollDefault': 'now',
+        // 'minTime': local,    //如何讀取variable  
+        // 'maxTime': '23:30',
+        // 'showDuration': true
+      });
+
+  });
+  
+ 
+  
+</script>   
+
+<!-- Mix Mode: Function hasn't complete -->
+<!-- Mix mode uses-->
+<!-- <script>
+  var mixMode = document.getElementById('modeselect');
+  var wayPoint1 = document.getElementById('waypoint1');
+  var wayPoint2 = document.getElementById('waypoint2');
+  var btn = document.getElementById('addwaypoint');
+
+  mixMode.addEventListener('change', (e) => {
+  switch (e.target.value) {
+    default: { 
+      wayPoint1.style.display = 'none';
+      wayPoint2.style.display = 'none';
+      break;
+    }
+    case 'Mix': {
+      wayPoint1.style.display = 'block';
+      btn.onclick=function(){
+        wayPoint2.style.display = 'block';
+      }
+      break;
+    }
+      
+  }
+});
+</script> -->
+<!-- Mix mode uses-->
+
+<script>
+  $(function() {
+    $('[data-toggle="datepicker"]').datepicker({
+      // dateFormat: "yy-mm-dd",
+      format: 'yyyy-mm-dd',
+      autoHide: true,
+      zIndex: 2048,
+    });
+  });
+</script>
+
+
+<script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places&callback=ActivatePlacesSearch"></script>
+{% endblock %}
+{% endblock %}
+
+
+
+

@@ -1,0 +1,31 @@
+{% extends "index.html" %}
+
+{% block head %}
+{% block title %}
+    Apology
+{% endblock %}
+{% endblock %}
+
+{% block body %} 
+<section id="breadcrumbs" class="breadcrumbs">
+    <div class="container">
+
+      <ol>
+        <li><a href="/">Home</a></li>
+        <li>Apology</li>
+      </ol>
+      <h2>Apology</h2>
+      <img alt="{{ code }}" class="border" src="http://memegen.link/custom/{{ code | urlencode }}/{{ message | urlencode }}.jpg?alt=https://i.imgur.com/CsCgN7Ll.png" title="{{ code }}">
+
+    </div>
+  </section>
+
+
+
+    {% block script %}
+    <script>
+        alert("{{ code }} | {{message}}");
+    </script>
+        
+    {% endblock %}
+{% endblock %}

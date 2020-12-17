@@ -1,0 +1,296 @@
+{% extends "index.html" %}
+
+{% block title %}
+    settings
+{% endblock %}
+
+{% block main %}
+<article id="breadcrumbs" class="breadcrumbs">
+  <div class="container">
+    <ol>
+      <li><a href="/">Home</a></li>
+      <li>Settings</li>
+    </ol>
+    <h2>Label Settings</h2>
+  </div>
+  <div class="container">
+    <table class="table table-borderless">
+      <tbody>
+        <tr>
+          <th scope="row">Home</th>
+          {% if HomeAddress != None %}
+          <td>{{HomeAddress}}</td> 
+          {% else %}
+          <td>Please setup your Home Address.</td>
+          {% endif %}
+          <td>
+            <div class="btn-group">
+                <div class="icon"><i class="btn bx bx-edit btn-info" data-toggle="modal" data-target="#EditHomeAddress"></i></div>
+            </div>
+          </td>
+        </tr>
+        <tr>
+          <th scope="row">Work</th>
+          {% if WorkAddress != None %}
+          <td>{{WorkAddress}}</td> 
+          {% else %}
+          <td>Please setup your Work Address.</td>
+          {% endif %}
+          <td>
+            <div class="btn-group">
+              <div class="btn-group">
+                <div class="icon"><i class="btn bx bx-edit btn-info" data-toggle="modal" data-target="#EditWorkAddress"></i></div>
+              </div>
+            </div>  
+          </td>
+        </tr>
+    
+        <!-- User custom input label -->
+        {% for i in CustomList %}
+          <tr>
+            <th scope="row">{{ i["label"] }}</th>
+            <td>{{ i["address"] }}</td>
+          </tr>
+        {% endfor %}
+        <tr>
+          <td></td>
+          <td colspan="1" align="right">
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#AddLabel">Add</button>
+          </td>
+          <td colspan="1">
+            <button type="button" class="btn btn-outline-danger" data-toggle="modal" data-target="#DeleteCustomLabel">Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+
+  <!-- Preferences -->
+  <div class="container">
+    <h2>Preferences</h2>
+    <table class="table table-borderless">
+      <tbody>
+        <tr>
+          <th scope="row">Commute Mode</th>
+          {% if UserCommuteMode != None %}
+          <td>{{UserCommuteMode}}</td>  
+          {% else %}
+          <td>Please setup your Commute Mode.</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <th scope="row">TimeZone</th>
+          {% if UserTimeZone != None %}
+          <td>{{UserTimeZone}}</td>  
+          {% else %}
+          <td>Please setup your Time Zone.</td>
+          {% endif %}
+        </tr>
+        <tr>
+          <td></td>
+          <td></td>
+          <td colspan="1">
+            <button type="button" class="btn btn-outline-success" data-toggle="modal" data-target="#EditPreferences">Edit</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+</div>
+</article><!-- End Breadcrumbs -->
+
+
+<!-- Edit Home address Modal -->
+<div class="modal fade" id="EditHomeAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalCenterTitle">Edit Home Address</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form action="/settings" method="post">
+                    <div class="form-group col-auto">
+                      <input type="text" class="form-control " name ="InputHomeAddress" id="home_auto_search" aria-describedby="AddressDescription" placeholder="Home Address" required>
+                      <small id="AddressDescription" class="form-text text-muted">Please enter your home address here.</small>
+                        <div class="modal-footer">
+                          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                          <button type="submit" class="btn btn-primary">Save Changes</button> 
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+  <!-- Edit Company address Modal -->
+<div class="modal fade" id="EditWorkAddress" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Work Address</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form action="/settings" method="post">
+            <div class="form-group col-auto">
+              <input type="text" class="form-control " name ="InputWorkAddress" id="work_auto_search" aria-describedby="AddressDescription" placeholder="Work Address" required>
+              <small id="AddressDescription" class="form-text text-muted">Please enter your work address here.</small>
+              </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button> 
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+</div>
+
+
+
+  <!-- Add new label Modal -->
+<div class="modal fade" id="AddLabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">New Label</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/settings" method="post">
+          <div class="form-group col-auto">
+            <input type="text" class="form-control " name ="InputCustomLabel" aria-describedby="AddressDescription" placeholder="Label" autocomplete="off" required>
+            <small id="AddressDescription" class="form-text text-muted">Please enter label here.</small>
+            <input type="text" class="form-control " name ="InputCustomAddress" id="other_auto_search" aria-describedby="AddressDescription" placeholder="Address" required>
+            <small id="AddressDescription" class="form-text text-muted">Please enter your address here.</small>
+          </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Save Changes</button> 
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+  
+
+
+<!-- Delete Label -->
+<div class="modal fade" id="DeleteCustomLabel" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalCenterTitle">Select the label you want to delete</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <form action="/settings" method="post">
+          <div class="form-group col-auto">
+            <select class="form-control labelform" name="DeleteLabel">
+              <option></option>
+              {% for i in CustomList %}
+                <option>{{i["label"]}}</option>
+              {% endfor %}
+            </select>
+          </div>
+              <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                <button type="submit" class="btn btn-primary">Delete</button> 
+              </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Edit Preference Modal-->
+  <!-- Preferences -->
+  <div class="modal fade" id="EditPreferences" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalCenterTitle">Edit Preferences</h5>
+
+          
+        </div>
+        <div class="modal-body">
+          <form action="/settings" method="post">
+            <div class="form-group col-auto">
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Commute Mode</label>
+                  <select class = "form-control labelform col-md-4"  name="InputCommuteMode">
+                    <!-- default bug -->
+                    {% if UserCommuteMode != None %}
+                    <option>{{UserCommuteMode}}</option>
+                    {% else %}
+                    <option selected disabled>Please setup Commute Mode.</option>
+                    {% endif %}
+                    {% for i in AllCommuteMode %}
+                      {% if i.capitalize() != UserCommuteMode %}
+                      <option>{{ i.capitalize() }}</option>
+                      {% endif %}
+                    {% endfor %}
+                  </select>
+                  <small class="form-text text-muted" >Please select the commute mode you frequently use.</small>
+                </div>
+
+              <div class="form-group row">
+                <label class="col-sm-4 col-form-label">Time Zone</label>
+                <select class = "form-control labelform col-md-4"   name="InputTimeZone">
+                  {% if UserTimeZone != None %}
+                  <option>{{UserTimeZone}}</option>
+                  {% else %}
+                  <option selected disabled>Please select Time Zone</option>
+                  {% endif %}
+                  {% for i in AllTimeZoneData %}
+                  <option>{{ i["timezone"] }}</option>
+                  {% endfor %}
+                </select>
+                <small class="form-text text-muted">Please select the time zone you currently located.</small>
+              </div> 
+  
+            </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                  <button type="submit" class="btn btn-primary">Save Changes</button> 
+                </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  
+
+
+{% block script %}
+<script>
+  function ActivatePlacesSearch(){
+      var input = document.getElementById('home_auto_search');
+      var autocomplete = new google.maps.places.Autocomplete(input);
+
+      var search = document.getElementById('work_auto_search');
+      var autocomplete1 = new google.maps.places.Autocomplete(search);
+
+      var find = document.getElementById('other_auto_search');
+      var autocomplete2 = new google.maps.places.Autocomplete(find);
+  
+  }
+</script>
+<script src="https://maps.googleapis.com/maps/api/js?key={{API_KEY}}&libraries=places&callback=ActivatePlacesSearch"></script>
+{% endblock %}
+{% endblock %}

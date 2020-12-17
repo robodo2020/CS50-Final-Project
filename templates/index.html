@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>Punctuality:{% block title %}{% endblock %}</title>
+  <meta content="" name="descriptison">
+  <meta content="" name="keywords">
+
+  <!-- Favicons -->
+  <link href="/static/punctuality.ico" rel="icon">
+  <link href="/static/assets/img/apple-touch-icon.png" rel="apple-touch-icon">
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i|Raleway:300,300i,400,400i,500,500i,600,600i,700,700i|Poppins:300,300i,400,400i,500,500i,600,600i,700,700i" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="/static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/icofont/icofont.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/boxicons/css/boxicons.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/animate.css/animate.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/remixicon/remixicon.css" rel="stylesheet">
+  <link href="/static/assets/vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="/static/assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="/static/assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="/static/assets/css/style.css" rel="stylesheet">
+
+  <!-- =======================================================
+  * Template Name: Multi - v2.1.0
+  * Template URL: https://bootstrapmade.com/multi-responsive-bootstrap-template/
+  * Author: BootstrapMade.com
+  * License: https://bootstrapmade.com/license/
+  ======================================================== -->
+  
+ 
+{% block head %} {% endblock %}
+{% block style %} {% endblock %}
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header" class="fixed-top">
+    <div class="container d-flex align-items-center">
+
+        {% if session.user_id %}
+      <a href="/schedule" class="logo mr-auto"><img src="/static/assets/img/logo.png" alt="" class="img-fluid"> Punctuality</a>
+      <nav class="nav-menu d-none d-lg-block ">
+        <ul>
+          <li><a class="nav-link" href="/schedule">SCHEDULE</a></li>  
+          <li><a class="nav-link" href="/settings">SETTING</a></li> 
+
+          <li class="navbar-nav ml-auto nav-item dropdown">
+            <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">Account</a>
+            <div class="dropdown-menu dropdown-menu-right">
+              <a class="dropdown-item" href="/changepw">Change Password</a>
+              <div class="dropdown-divider"></div>
+              <a class="dropdown-item" href="/logout">Sign out</a>
+            </div>
+          </li>
+        </ul>
+        
+        
+        {% else %}
+      <a href="/" class="logo mr-auto"><img src="/static/assets/img/logo.png" alt="" class="img-fluid"> Punctuality</a>
+      <nav class="nav-menu d-none d-lg-block ">
+        <ul>
+          <li class="active"><a href="/">Home</a></li>
+          <li><a href="#about">About</a></li>
+          <li><a href="#features">Features</a></li>
+          <li data-toggle="modal" data-target="#login" class ="nav-item">Sign In</a></li>
+        </ul>
+      </nav><!-- .nav-menu -->
+
+      <a data-toggle="modal" data-target="#register" class="get-started-btn">Sign Up</a>
+      {% endif %}
+    </div>
+  </header><!-- End Header -->
+
+{% if session.user_id %}
+{% block body %}{% endblock %}
+{% block main %}{% endblock %}
+
+{% else %}
+  <!-- ======= Hero Section ======= -->
+  <section id="hero">
+    <div id="heroCarousel" class="carousel slide carousel-fade" data-ride="carousel">
+
+      <ol class="carousel-indicators" id="hero-carousel-indicators"></ol>
+
+      <div class="carousel-inner" role="listbox">
+
+        <!-- Slide 1 -->
+        <div class="carousel-item active" style="background-image: url(/static/assets/img/slide/slide-1.jpg)">
+          <div class="carousel-container">
+            <div class="container">
+              <h2 class="animate__animated animate__fadeInDown">Welcome to <span style="font-weight: bold;font-size:60px; color: aqua;">PUNCTUALITY</span></h2>
+              <p class="animate__animated animate__fadeInUp">Feeling tired about checking when to head out every time? Try Punctuality. This is the web tool that helps you add events on your Google Calendar, and automatically tells you the departure time. </p>
+              <a data-toggle="modal" data-target="#register" class="btn-get-started animate__animated animate__fadeInUp scrollto">Get Started</a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Slide 2 -->
+        <div class="carousel-item" style="background-image: url(/static/assets/img/slide/slide-2.jpg)">
+          <div class="carousel-container">
+            <div class="container">
+              <h2 class="animate__animated animate__fadeInDown">Make every envent on time!</h2>
+              <p class="animate__animated animate__fadeInUp">The web combines the function of Google Map and Google Calendar. You can plan and check your event here without switching between different pages. And also, get rid of the complex inputting addresses and selecting commute mode process. </p>
+              <a href="#about" class="btn-get-started animate__animated animate__fadeInUp scrollto">Read More</a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <a class="carousel-control-prev" href="#heroCarousel" role="button" data-slide="prev">
+        <span class="carousel-control-prev-icon icofont-simple-left" aria-hidden="true"></span>
+        <span class="sr-only">Previous</span>
+      </a>
+
+      <a class="carousel-control-next" href="#heroCarousel" role="button" data-slide="next">
+        <span class="carousel-control-next-icon icofont-simple-right" aria-hidden="true"></span>
+        <span class="sr-only">Next</span>
+      </a>
+
+    </div>
+  </section><!-- End Hero -->
+
+  <main id="main">
+    
+    <!-- Modal for login -->
+    <div  class="modal" id="login">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sign In</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/" method="POST">
+              <div class="form-group">
+                <label for="LoginUsername">User Name</label>
+                <input type="text" class="form-control" name="LoginUsername" aria-describedby="UsernameHelp" placeholder="Enter User Name" autocomplete="off"  required>
+                <small id="UsernameHelp" class="form-text text-muted">We'll never share your Username with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="LoginPassword">Password</label>
+                <input type="password" class="form-control" name="LoginPassword" placeholder="Password"  required>
+              </div>
+              
+              <div class="modal-footer">
+                <div><button class="btn btn-primary" type="submit">Login</button></div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+    <!-- Modal for Register -->
+    <div  class="modal" id="register">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">Sign Up</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <form action="/" method="POST">
+              <div class="form-group">
+                <label for="RegUsername">Username</label>
+                <input type="text" class="form-control" name="RegUsername" aria-describedby="UserNameHelp" placeholder="Enter Username" autocomplete="off"  required>
+                <small id="UserNameHelp" class="form-text text-muted">We'll never share your username with anyone else.</small>
+              </div>
+              <div class="form-group">
+                <label for="RegPassword">Password</label>
+                <input type="password" class="form-control" name="RegPassword" aria-describedby="PasswordHelp" placeholder="Password"  required>
+                <small id="PasswordHelp" class="form-text text-muted">Do not use the password that you use in other place.</small>
+              </div>
+              <div class="form-group">
+                <label for="RegConfrimPassword">Confirm Password</label>
+                <input type="password" class="form-control" name="RegConfrimPassword" placeholder="Confirm Password"  required>
+              </div>
+              <div class="modal-footer">
+                <div><button class="btn btn-primary" type="submit">Create Account</button></div>
+              </div>
+            </form>
+          </div>
+          
+        
+        </div>
+      </div>
+    </div>
+
+
+    <!-- ======= About Section ======= -->
+    <section id="about" class="about">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>About</h2>
+          <p>About The Project</p>
+        </div>
+
+        <div class="row content">
+          <div class="col-lg-6">
+            
+            <ul>
+              <li><i class="ri-check-double-line"></i> Save your preferences address beforehand one time</li>
+              <li><i class="ri-check-double-line"></i> Setup your events by one-click selection</li>
+              <li><i class="ri-check-double-line"></i> Get departure time notification right away</li>
+            </ul>
+          </div>
+          <div class="col-lg-6 pt-4 pt-lg-0">
+            <p>
+              This is the final project of Havard CS50 - introduction to computer science. It simplifies the process of checking the leaving time for every event. 
+            </p>
+            <a data-toggle="modal" data-target="#register" class="btn-learn-more">Get Started</a>
+          </div>
+        </div>
+
+      </div>
+    </section><!-- End About Section -->
+
+    <!-- ======= Features Section ======= -->
+    <section id="features" class="services">
+      <div class="container" data-aos="fade-up">
+
+        <div class="section-title">
+          <h2>Features</h2>
+          <p>Commute Mode</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-3 col-md-5 d-flex align-items-stretch" data-aos="zoom-in" data-aos-delay="100">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-car"></i></div>
+              <h4><a href="">Drive</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-5 d-flex align-items-stretch mt-3 mt-md-0" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxs-bus"></i></div>
+              <h4><a href="">Transit</a></h4> 
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-5 d-flex align-items-stretch mt-3 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bxs-tachometer"></i></div>
+              <h4><a href="">Bicycling</a></h4>
+            </div>
+          </div>
+
+          <div class="col-lg-3 col-md-5 d-flex align-items-stretch mt-3 mt-lg-0" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-walk"></i></div>
+              <h4><a href="">Walking</a></h4>
+            </div>
+          </div>
+          
+        </div>
+
+        <div class="section-title">
+          <p>Function</p>
+        </div>
+
+        <div class="row">
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="200">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-map"></i></div>
+              <h4><a href="">Place Search</a></h4>
+              <p>Type the place you want to go in searchbox</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-calendar-event"></i></div>
+              <h4><a href="">Event Add</a></h4>
+              <p>Insert events into your Google Calendar</p>
+            </div>
+          </div>
+
+          <div class="col-lg-4 col-md-6 d-flex align-items-stretch mt-4" data-aos="zoom-in" data-aos-delay="300">
+            <div class="icon-box">
+              <div class="icon"><i class="bx bx-calculator"></i></div>
+              <h4><a href="">Time estimate</a></h4>
+              <p>Calculate the commute time to the event</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section><!-- End Services Section -->
+
+{% endif %}
+    
+  </main><!-- End #main -->
+
+  <!-- ======= Footer ======= -->
+  <footer id="footer">
+    <div class="footer-top">
+      <div class="container">
+        <div class="row">
+
+          <div class="col-lg-4 col-md-6">
+            <div class="footer-info">
+              <h3>Punctuality</h3>
+              <p class="pb-3"><em>No longer worry about when to go</em></p>
+              <p>
+                This was CS50<br>
+              </p>
+              <div class="social-links mt-3">
+                <a href="https://github.com/robodo2020" class="github"><i class="bx bxl-github"></i></a>
+                <a href="https://www.linkedin.com/in/yu-chun-fang/" class="linkedin"><i class="bx bxl-linkedin"></i></a>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <br>
+            <h4>Reference</h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://developers.google.com/maps/documentation/distance-matrix/overview">Distance Matrix API</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://developers.google.com/places/web-service/overview">Places API</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://developers.google.com/calendar">Calendar API</a></li>
+              
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6 footer-links">
+            <br>
+            <h4><br></h4>
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://flask.palletsprojects.com/en/1.1.x/">Flask</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://www.sqlite.org/index.html">SQLite</a></li>
+            </ul>
+          </div>
+          
+
+          <div class="col-lg-2 col-md-6  footer-links">
+            <br>
+            <h4>Resources</h4>
+            <!-- <br><br> -->
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://fengyuanchen.github.io/datepicker/">Datepicker</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://www.jonthornton.com/jquery-timepicker/">Timepicker</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://fullcalendar.io/">FullCalendar</a></li>
+            </ul>
+          </div>
+
+          <div class="col-lg-2 col-md-6  footer-links">
+            <br>
+            <h4><br></h4>
+            <!-- <br><br> -->
+            <ul>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://getbootstrap.com/">Bootstrap</a></li>
+              <li><i class="bx bx-chevron-right"></i> <a href="https://bootstrapmade.com/">BootstrapMade</a></li>
+            </ul>
+          </div>
+
+
+        </div>
+      </div>
+    </div>
+
+    <div class="container">
+      <div class="copyright">
+        &copy; Copyright <strong><span>CS50 final project</span></strong>. All Rights Reserved
+      </div>
+      <div class="credits">
+        <!-- All the links in the footer should remain intact. -->
+        <!-- You can delete the links only if you purchased the pro version. -->
+        <!-- Licensing information: https://bootstrapmade.com/license/ -->
+        <!-- Purchase the pro version with working PHP/AJAX contact form: https://bootstrapmade.com/multi-responsive-bootstrap-template/ -->
+        Designed by <a href="https://bootstrapmade.com/">BootstrapMade</a>
+      </div>
+    </div>
+  </footer><!-- End Footer -->
+
+  <div id="preloader"></div>
+  <a href="#" class="back-to-top"><i class="icofont-simple-up"></i></a>
+
+  <!-- Vendor JS Files -->
+  <script src="/static/assets/vendor/jquery/jquery.min.js"></script>
+  <script src="/static/assets/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/static/assets/vendor/jquery.easing/jquery.easing.min.js"></script>
+  <script src="/static/assets/vendor/php-email-form/validate.js"></script>
+  <script src="/static/assets/vendor/waypoints/jquery.waypoints.min.js"></script>
+  <script src="/static/assets/vendor/counterup/counterup.min.js"></script>
+  <script src="/static/assets/vendor/venobox/venobox.min.js"></script>
+  <script src="/static/assets/vendor/owl.carousel/owl.carousel.min.js"></script>
+  <script src="/static/assets/vendor/isotope-layout/isotope.pkgd.min.js"></script>
+  <script src="/static/assets/vendor/aos/aos.js"></script>
+
+
+  <!-- Template Main JS File -->
+  <script src="/static/assets/js/main.js"></script>
+  {% block script%} {% endblock %}
+
+</body>
+
+</html>
