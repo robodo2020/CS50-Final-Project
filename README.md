@@ -3,6 +3,8 @@
 ## Welcome to Punctuality
 >This is the final project of [CS50x](https://cs50.harvard.edu/x/2020/). It is a web application that helps you add events on your Google Calendar, and automatically tells you the departure time. It simplifies the process of adding a new event and checking the departure time.
 
+## Introduction 
+[![Watch the video intro here](https://img.youtube.com/vi/VpiKutowMow/maxresdefault.jpg)](https://youtu.be/VpiKutowMow)
 
 ## User Instruction
 ### Register & Login
@@ -69,6 +71,33 @@ Below are the resources I used to build this project.
 - [TimePicker](https://www.jonthornton.com/jquery-timepicker/)
 - [FullCalendar](https://fullcalendar.io/)
 
+## Prerequisite
+### Installation
+By following these instructions you can run this application on your local machine.
+use `pip freeze > requirements.txt` to install, or run the folloing commands: 
+>pip install flask
 
+>pip install flask_session
 
+>pip install googlemaps
+
+>pip install google-api-python-client
+
+>pip install google-auth-oauthlib
+
+>pip install python-dotenv
+
+### Google Cloud Platform Activation
+Activate your GCP and get the api-key for uses.
+You'll need to activate the following API in your GCP:
+>Places api
+
+>Distance matrix api
+
+>Calendar api
+`(*note:In order to use Calendar API, you also need to setup "OAuth2" to get the "client_secret.json" file, then download it and add into this project) `
+
+After that you can get your API_KEY from GCP.
+Create a `.env` file, open it and set
+`API_KEY={YOUR_API_KEY}‵. Then you can run this project on your computer!
 

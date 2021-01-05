@@ -297,31 +297,14 @@ mySelect.addEventListener('change', (e) => {
         });
   });
   
-  //  var globalVar;
-  // function getFromTime(){
-  //    globalVar = document.getElementById('FromTime').value;  
-  //   };
 
-
-//   $(function(){
-//   $("#FromTime").change(function(){
-//     globalVar = document.getElementById('FromTime').value;  
-//     alert(globalVar);
-//   });
-// });
-
-
-// ToTime 一選完，透過onchange知道 globalVar有拿到值，然而在下方jQuery還沒初始化過，所以這時候還不知道global的值
-// 但如果我事前預設globalVar="15:00"，下面就可以讀的到
-
-//下面似乎在重新整理網頁時，就已經讀取了，所以後面就完全讀不到
   $(function() {
       // var local = globalVar;
       // alert(local);
       $('#ToTime').timepicker({
         'timeFormat': 'H:i',
         'scrollDefault': 'now',
-        // 'minTime': local,    //如何讀取variable  
+        // 'minTime': local,  
         // 'maxTime': '23:30',
         // 'showDuration': true
       });
