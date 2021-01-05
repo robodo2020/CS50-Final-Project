@@ -4,6 +4,7 @@
 >This is the final project of [CS50x](https://cs50.harvard.edu/x/2020/). It is a web application that helps you add events on your Google Calendar, and automatically tells you the departure time. It simplifies the process of adding a new event and checking the departure time.
 
 ## Introduction 
+Click below to see video intro:
 [![Watch the video intro here](https://img.youtube.com/vi/VpiKutowMow/maxresdefault.jpg)](https://youtu.be/VpiKutowMow)
 
 ## User Instruction
@@ -74,7 +75,8 @@ Below are the resources I used to build this project.
 ## Prerequisite
 ### Installation
 By following these instructions you can run this application on your local machine.
-use `pip freeze > requirements.txt` to install, or run the folloing commands: 
+
+Use `pip freeze > requirements.txt` to install, or run the folloing commands: 
 >pip install flask
 
 >pip install flask_session
@@ -90,11 +92,10 @@ use `pip freeze > requirements.txt` to install, or run the folloing commands:
 ### Google Cloud Platform Activation
 Activate your GCP and get the api-key for uses.
 You'll need to activate the following API in your GCP:
->Places api
+- Places api
+- Distance matrix api
+- Calendar api*
 
->Distance matrix api
-
->Calendar api
 `(*note:In order to use Calendar API, you also need to setup "OAuth2" to get the "client_secret.json" file, then download it and add into this project) `
 
 After that you can get your API_KEY from GCP.
