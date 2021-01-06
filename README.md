@@ -4,7 +4,7 @@
 >This is the final project of [CS50x](https://cs50.harvard.edu/x/2020/). It is a web application that helps you add events on your Google Calendar, and automatically tells you the departure time. It simplifies the process of adding a new event and checking the departure time.
 
 ## Introduction 
-Click below to see video intro:
+Click below to see [video intro](https://youtu.be/VpiKutowMow):
 [![Watch the video intro here](https://img.youtube.com/vi/VpiKutowMow/maxresdefault.jpg)](https://youtu.be/VpiKutowMow)
 
 ## User Instruction
