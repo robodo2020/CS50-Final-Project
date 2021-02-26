@@ -76,7 +76,7 @@ Below are the resources I used to build this project.
 ### Installation
 By following these instructions you can run this application on your local machine.
 
-Use `pip freeze > requirements.txt` to install, or run the folloing commands: 
+Use `pip install -r requirements.txt` to install, or run the folloing commands: 
 >pip install flask
 
 >pip install flask_session
